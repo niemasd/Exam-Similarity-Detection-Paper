@@ -11,8 +11,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('-i', '--input', required=False, type=str, default='stdin', help="Input Similarity Score File (CSV)")
     parser.add_argument('-o', '--output', required=False, type=str, default='stdout', help="Output File (CSV)")
-    parser.add_argument('-xm', '--xmin', required=True, type=float, default=0, help="Minimum Similarity Score")
-    parser.add_argument('-xM', '--xmax', required=True, type=float, default=1, help="Maximum Similarity Score")
+    parser.add_argument('-xm', '--xmin', required=True, type=float, help="Minimum Similarity Score")
+    parser.add_argument('-xM', '--xmax', required=True, type=float, help="Maximum Similarity Score")
     parser.add_argument('-xd', '--xdelta', required=False, type=float, default=0.0001, help="Similarity Score Delta")
     args = parser.parse_args()
 
