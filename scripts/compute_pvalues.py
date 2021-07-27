@@ -49,6 +49,6 @@ if __name__ == "__main__":
             p_kde = kde.integrate_box_1d(s, float('inf'))
             p_expon = 1. - expon.cdf(s, loc=0, scale=scale)
             outfile.write("%s,%s,%f,%f,%f,%f\n" % (u,v,s,dist,p_kde,p_expon))
+        outfile.close()
     except BrokenPipeError:
         pass
-    outfile.close()
