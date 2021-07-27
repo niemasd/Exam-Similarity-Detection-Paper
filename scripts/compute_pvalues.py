@@ -43,11 +43,12 @@ if __name__ == "__main__":
     else:
         outfile = open(args.output, 'w')
     try:
-        outfile.write("Student 1,Student 2,Similarity,KDE p-value,Exponential p-value (rate=%f)\n" % rate)
+        outfile.write("Student 1,Student 2,Similarity,Distance From log-KDE Line,KDE p-value,Exponential p-value (rate=%f)\n" % rate)
         for u,v,s in data:
+            dist = log(kde.pdf(s)) - (line.slope * s + line.intercept)
             p_kde = kde.integrate_box_1d(s, float('inf'))
             p_expon = 1. - expon.cdf(s, loc=0, scale=scale)
-            outfile.write("%s,%s,%f,%f,%f\n" % (u,v,s,p_kde,p_expon))
+            outfile.write("%s,%s,%f,%f,%f,%f\n" % (u,v,s,dist,p_kde,p_expon))
     except BrokenPipeError:
         pass
     outfile.close()
