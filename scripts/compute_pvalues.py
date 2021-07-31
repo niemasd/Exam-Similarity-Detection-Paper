@@ -67,14 +67,15 @@ if __name__ == "__main__":
     Y = log(kde.pdf(X))
     line = linregress(X,Y) # y = ln(L) - Lx, where L = rate parameter (lambda) of Exponential distribution
     rate = -1 * line.slope; scale = 1. / rate
+    loc = -(line.intercept - log(rate))/line.slope
     if args.verbose:
         print_stderr("Best-fit log-KDE line: y = %fx + %f" % (line.slope, line.intercept))
-        print_stderr("Best-fit Exponential: rate = %f --> scale = 1/rate = %f" % (rate, scale))
+        print_stderr("Best-fit Exponential: rate = %f --> scale = 1/rate = %f; loc = %f" % (rate, scale, loc))
 
     # compute p-values and q-values (corrected p-values)
     if args.verbose:
         print_stderr("Computing theoretical p-values...")
-    pvals_expon = [1.-expon.cdf(s,loc=0,scale=scale) for u,v,s in data]
+    pvals_expon = [1.-expon.cdf(s,loc=loc,scale=scale) for u,v,s in data]
     if args.verbose:
         print_stderr("Computing q-values (corrected p-values) using: %s" % args.correction)
     qvals_expon = correction(pvals_expon, data)
@@ -89,7 +90,7 @@ if __name__ == "__main__":
     else:
         outfile = open(args.output, 'w')
     try:
-        outfile.write("Student 1,Student 2,Similarity,p-value (rate=%f),q-value (%s)\n" % (rate, args.correction))
+        outfile.write("Student 1,Student 2,Similarity,p-value (rate=%f, loc=%f),q-value (%s)\n" % (rate, loc, args.correction))
         for i in range(len(data)):
             u,v,s = data[i]
             p_expon = pvals_expon[i]
