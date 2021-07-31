@@ -67,7 +67,7 @@ if __name__ == "__main__":
     Y = log(kde.pdf(X))
     line = linregress(X,Y) # y = ln(L) - Lx, where L = rate parameter (lambda) of Exponential distribution
     rate = -1 * line.slope; scale = 1. / rate
-    loc = -(line.intercept - log(rate))/line.slope
+    loc = (log(rate) - line.intercept)/line.slope
     if args.verbose:
         print_stderr("Best-fit log-KDE line: y = %fx + %f" % (line.slope, line.intercept))
         print_stderr("Best-fit Exponential: rate = %f --> scale = 1/rate = %f; loc = %f" % (rate, scale, loc))
